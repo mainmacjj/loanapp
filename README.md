@@ -59,7 +59,7 @@ It is important that you familiar yourself with these technologies and be able t
 
 Instructions
 ------------
-1. Create database with sample data by running database-sample/loan_db.sql or and sql file
+1. Create database with sample data by running database-sample/loan_db.sql or an sql file
 of your choice.
 
 2. To connect to your MySQL database go to src/main/resources/hibernate.cfg.xml and replace
