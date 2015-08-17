@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 15, 2015 2:59:02 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class catalog="loan_db" name="com.macj7.loanapp.model.User" optimistic-lock="version" table="user">
+    <id name="usrId" type="java.lang.Integer">
+      <column name="usr_id"/>
+      <generator class="identity"/>
+    </id>
+    <property name="pcode" type="string">
+      <column length="8" name="pcode" not-null="true"/>
+    </property>
+    <property name="permission" type="int">
+      <column name="permission" not-null="true"/>
+    </property>
+    <one-to-one class="com.macj7.loanapp.model.LoanOfficer" name="loanOfficer"/>
+    <set fetch="select" inverse="true" lazy="true" name="loansForCustIdNo" table="loan">
+      <key>
+        <column name="cust_id_no"/>
+      </key>
+      <one-to-many class="com.macj7.loanapp.model.Loan"/>
+    </set>
+    <one-to-one class="com.macj7.loanapp.model.Customer" name="customer"/>
+    <set fetch="select" inverse="true" lazy="true" name="loansForOfficerIdNo" table="loan">
+      <key>
+        <column name="officer_id_no"/>
+      </key>
+      <one-to-many class="com.macj7.loanapp.model.Loan"/>
+    </set>
+  </class>
+</hibernate-mapping>
