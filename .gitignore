@@ -4,3 +4,4 @@
 *.jar
 *.class
 target/*
+target/
