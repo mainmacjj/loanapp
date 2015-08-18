@@ -65,5 +65,6 @@ of your choice.
 2. To connect to your MySQL database go to src/main/resources/hibernate.cfg.xml and replace
 the hibernate.connection.password property with your root password.
 
-3. Open as a Netbeans project and run with the server of your choice. The necessary libraries
-if not available should be downloaded via maven.
+3. The necessary libraries if not available should be downloaded via maven. This can be done by opening loanapp as a Netbeans project and right click dependencies then click download declared dependencies (using netbeans 8.0.2 UI as reference).
+
+4. Then run with the server of your choice. 
