@@ -57,8 +57,22 @@ It is important that you familiar yourself with these technologies and be able t
 2. Demonstrate your ability to create an API
 3. Demonstrate your ability to consume an API
 
-Instructions
-------------
+
+Live demo of the project can be found online
+---------------------------------------------
+At:
+http://loanapp-macj7.rhcloud.com/
+
+There is only one loan officer in the database with pass code: 01010101
+
+Also, there are two customers in the sample database, and the pass code for one of these is: 12345678
+
+The details of the above users or the second customer can be found in the sql file in the
+database-sample folder.
+
+
+Instructions to build from source and run in Netbeans
+-----------------------------------------------------
 1. Create database with sample data by running database-sample/loan_db.sql or an sql file
 of your choice.
 
@@ -69,4 +83,4 @@ the hibernate.connection.password property with your root password.
 
 4. Then right click and select build with dependencies.
 
-5. After the downloads have finished Run with the server of your choice. 
+5. After the downloads have finished Run with the server of your choice (my default was Glasfish 4.1). 
