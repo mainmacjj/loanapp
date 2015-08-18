@@ -67,4 +67,6 @@ the hibernate.connection.password property with your root password.
 
 3. The necessary libraries if not available should be downloaded via maven. This can be done by opening loanapp as a Netbeans project and right click dependencies then click download declared dependencies (using netbeans 8.0.2 UI as reference).
 
-4. Then run with the server of your choice. 
+4. Then right click and select build with dependencies.
+
+5. After the downloads have finished Run with the server of your choice. 
