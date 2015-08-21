@@ -31,12 +31,25 @@ public class LoanAppController {
     private final int pcode_length = 8;
     
 
-    
+    /***
+     * 
+     * This controller method is mapped to the url /index
+     * 
+     * @param request
+     * @return ModelAndView Object.
+     */
     @RequestMapping(value="/index")
     public ModelAndView index(HttpServletRequest request) {
         HttpSession session = request.getSession();
         ////////////////////////////////////////////////
         
+        /**
+         * In the code section below if section to see if a user is signed in
+         * by checking for a session attribute "user" which should exist after
+         * a logging. If not, then the index view is rendered. If it does, then
+         * the user is redirect to the customer view or officer view depending
+         * on which of these two the user is.
+         */
         User user = (User) session.getAttribute("user");
         if (user!=null) {
             if (user.getPermission()==2) {
@@ -50,51 +63,78 @@ public class LoanAppController {
         return new ModelAndView("index");
     }
     
-    
+    /***
+     * The following controller method is mapped to the url /signUp
+     * and serves up the view for this url.
+     * 
+     * @param request
+     * @return ModelAndView Object
+     */
     @RequestMapping(value="/signUp")
     public ModelAndView signUp(HttpServletRequest request) {
         HttpSession session = request.getSession();
         ////////////////////////////////////////////////
         
+        /**
+         * In the code section below if section to see if a user is signed in
+         * by checking for a session attribute "user" which should exist after
+         * a logging. If not, then the index view is rendered. If it does, then
+         * the user is redirect to the customer view or officer view depending
+         * on which of these two the user is.
+         */
+        
         User user = (User) session.getAttribute("user");
         if (user!=null) {
             if (user.getPermission()==2) {
-                return new ModelAndView("redirect:/customer.htm");
+                return new ModelAndView("redirect:/customer.php");
             }
             else {
-                return new ModelAndView("redirect:/officer.htm");
+                return new ModelAndView("redirect:/officer.php");
             }
         }
         //////////////////////////////////////////////////////////
         return new ModelAndView("signUp");
     }
     
-    
+    /***
+     * This method controller is mapped to the url /register with method post.
+     * Note that get is the default and so was not specified explicitly
+     * like this one. This controller method is responsible for creating a new
+     * customer and adding them to the database.
+     * 
+     * @param request
+     * @return ModelAndView Object
+     */
     @RequestMapping(value="/register",method=RequestMethod.POST)
     public ModelAndView register(HttpServletRequest request) {
         
+        //checks the http request for user's first name.
         String fname = request.getParameter("fname");
-        if (fname == null) {
-            return new ModelAndView("redirect:/index.php");
+        if ((fname == null) || (fname.equals(""))) {
+            return new ModelAndView("redirect:/failed.php"); //fails if there is no first name or is empty string.
         }
         
+        //checks the http request for user's last name.
         String lname = request.getParameter("lname");
         if (lname == null) {
-            return new ModelAndView("redirect:/index.php");
+            return new ModelAndView("redirect:/index.php"); // fails if there is no last name or empty string.
         }
         
-        String name = fname+" "+lname;
+        String name = fname+" "+lname; // concatenate them into just a name.
         
         String pcode = "";
-        PassCodeGenerator gen = (new PassCodeGenerator());
+        PassCodeGenerator gen = (new PassCodeGenerator()); // creates a PassCodeGenerator object.
+        
+        // generate pass codes until a unique one that is not in the database is generated.
         do {
             pcode = gen.getPassCode(pcode_length);
         }while (manager.passCodeInUse(pcode));
         
+        // displays a view with the pass code of the new user if registration is successful
         if (manager.registerUser(name, pcode, 2)) {
             return new ModelAndView("register","pcode",pcode);
         }
-        return new ModelAndView("redirect:/index.php"); //replace with a redirect to error page.
+        return new ModelAndView("redirect:/failed.php"); // displays a page indicating that registration has failed.
     }
     
 
@@ -178,8 +218,8 @@ public class LoanAppController {
     }
     
 
-    @RequestMapping(value="/response1", headers = "Accept=application/json", method=RequestMethod.GET)
-    public @ResponseBody List<Map<String,String>> response1(HttpServletRequest request) {
+    @RequestMapping(value="/getActiveLoans", headers = "Accept=application/json", method=RequestMethod.GET)
+    public @ResponseBody List<Map<String,String>> getActiveLoans(HttpServletRequest request) {
         HttpSession session = request.getSession();
         
         User user = (User) session.getAttribute("user");
@@ -232,8 +272,8 @@ public class LoanAppController {
     
     
     
-    @RequestMapping(value="/response2", headers = "Accept=application/json", method=RequestMethod.GET)
-    public @ResponseBody List<Map<String,String>> response2(HttpServletRequest request) {
+    @RequestMapping(value="/getCustomers", headers = "Accept=application/json", method=RequestMethod.GET)
+    public @ResponseBody List<Map<String,String>> getCustomers(HttpServletRequest request) {
         HttpSession session = request.getSession();
         
         User user = (User) session.getAttribute("user");
@@ -264,8 +304,8 @@ public class LoanAppController {
     
     
     
-    @RequestMapping(value="/response3", method=RequestMethod.POST)
-    public @ResponseBody void response3(HttpServletRequest request) {
+    @RequestMapping(value="/createRepayment", method=RequestMethod.POST)
+    public @ResponseBody void createRepayment(HttpServletRequest request) {
         BigDecimal amt = new BigDecimal(request.getParameter("amt"));
 
         int id = new Integer(request.getParameter("id"));
@@ -284,8 +324,8 @@ public class LoanAppController {
     
     
     
-    @RequestMapping(value="/response4", method=RequestMethod.POST)
-    public @ResponseBody void response4(HttpServletRequest request) {
+    @RequestMapping(value="/updateRepayment", method=RequestMethod.POST)
+    public @ResponseBody void updateRepayment(HttpServletRequest request) {
         BigDecimal amt = new BigDecimal(request.getParameter("amt"));
 
         int id = new Integer(request.getParameter("id"));
@@ -304,8 +344,8 @@ public class LoanAppController {
     }
     
     
-    @RequestMapping(value="/response5", method=RequestMethod.POST)
-    public @ResponseBody void response5(HttpServletRequest request) {
+    @RequestMapping(value="/deleteRepayment", method=RequestMethod.POST)
+    public @ResponseBody void deleteRepayment(HttpServletRequest request) {
         int id = new Integer(request.getParameter("id"));
         
         HttpSession session = request.getSession();
@@ -323,8 +363,8 @@ public class LoanAppController {
     
     
     
-    @RequestMapping(value="/response6", method=RequestMethod.POST)
-    public @ResponseBody void response6(HttpServletRequest request) {
+    @RequestMapping(value="/createLoan", method=RequestMethod.POST)
+    public @ResponseBody void createLoan(HttpServletRequest request) {
         
         BigDecimal amt = new BigDecimal(request.getParameter("amt"));
         int cust_id = new Integer(request.getParameter("cust_id_no"));
@@ -343,8 +383,8 @@ public class LoanAppController {
     
     
     
-    @RequestMapping(value="/response7", headers = "Accept=application/json", method=RequestMethod.GET)
-    public @ResponseBody Map<String,String> response7(HttpServletRequest request) {
+    @RequestMapping(value="/getCurrentUser", headers = "Accept=application/json", method=RequestMethod.GET)
+    public @ResponseBody Map<String,String> getCurrentUser(HttpServletRequest request) {
         HttpSession session = request.getSession();
         
         User user = (User) session.getAttribute("user");

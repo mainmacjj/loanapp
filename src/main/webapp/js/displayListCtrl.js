@@ -4,7 +4,7 @@ app.controller("displayListCtrl", function($scope, $http,$timeout) {
     $scope.c_user = null;
     
     $scope.update = function() {
-        var response = $http.get("response1.php");
+        var response = $http.get("getActiveLoans.php");
         response.success(function(data) {
           $scope.loans = data;
           
@@ -18,7 +18,7 @@ app.controller("displayListCtrl", function($scope, $http,$timeout) {
     
     
     $scope.getCurrentUser = function() {
-        var response = $http.get("response7.php");
+        var response = $http.get("getCurrentUser.php");
         response.success(function(data) {
           $scope.c_user = data;
           
@@ -62,7 +62,7 @@ app.controller("displayListCtrl", function($scope, $http,$timeout) {
         
         var response = $http({
             method: 'POST',
-            url: 'response3.php',
+            url: 'createRepayment.php',
             data: params,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         });
@@ -98,7 +98,7 @@ app.controller("displayListCtrl", function($scope, $http,$timeout) {
         
         var response = $http({
             method: 'POST',
-            url: 'response4.php',
+            url: 'updateRepayment.php',
             data: params,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         });
@@ -131,7 +131,7 @@ app.controller("displayListCtrl", function($scope, $http,$timeout) {
         
         var response = $http({
             method: 'POST',
-            url: 'response5.php',
+            url: 'deleteRepayment.php',
             data: params,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         });

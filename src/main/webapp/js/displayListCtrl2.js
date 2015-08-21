@@ -1,7 +1,7 @@
 app.controller("displayListCtrl2", function($scope, $http,$timeout) {
     
     $scope.update = function() {
-        var response = $http.get("response2.php");
+        var response = $http.get("getCustomers.php");
         
         response.success(function(data) {
           $scope.users = data;
@@ -16,7 +16,7 @@ app.controller("displayListCtrl2", function($scope, $http,$timeout) {
     
     
     $scope.getCurrentUser = function() {
-        var response = $http.get("response7.php");
+        var response = $http.get("getCurrentUser.php");
         
         response.success(function(data) {
             $scope.c_user = data;
@@ -56,7 +56,7 @@ app.controller("displayListCtrl2", function($scope, $http,$timeout) {
         
         var response = $http({
             method: 'POST',
-            url: 'response6.php',
+            url: 'createLoan.php',
             data: params,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         });
