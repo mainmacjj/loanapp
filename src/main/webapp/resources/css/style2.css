@@ -39,6 +39,7 @@ form {
     border-style: double;
     border-width: 1px;
     text-align: center;
+    padding: 10px;
 }
 
 .center {

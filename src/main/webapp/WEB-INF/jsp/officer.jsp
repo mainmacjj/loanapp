@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Customers</title>
-        <link href="css/style2.css" rel="stylesheet" type="text/css">
+        <link href="resources/css/style2.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <header>
@@ -19,7 +19,7 @@
         </header>
         
         <nav>
-            <a href="logout.php">Logout</a><br/>
+            <a href="logout">Logout</a><br/>
         </nav>
         
         <h2>Welcome, {{ name }}!</h2>
@@ -44,8 +44,8 @@
             Copyright © macj7
         </footer>
         
-        <script src="js/libs/angular.js/angular.js"></script>
-        <script src="js/displayListApp.js"></script>
-        <script src="js/displayListCtrl2.js"></script>
+        <script src="resources/js/libs/angular.js/angular.js"></script>
+        <script src="resources/js/displayListApp.js"></script>
+        <script src="resources/js/displayListCtrl2.js"></script>
     </body>
 </html>

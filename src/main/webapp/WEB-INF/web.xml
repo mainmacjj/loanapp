@@ -14,14 +14,11 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>loanapp</servlet-name>
-        <url-pattern>*.php</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>redirect.jsp</welcome-file>
-    </welcome-file-list>
 </web-app>

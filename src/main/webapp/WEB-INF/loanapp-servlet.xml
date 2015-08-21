@@ -12,12 +12,24 @@
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
  
 	<context:component-scan base-package="com.macj7.loanapp.controller" />
-	<mvc:annotation-driven/>
+	<mvc:annotation-driven>
+            <mvc:path-matching
+                suffix-pattern="false"
+                trailing-slash="false"
+                registered-suffixes-only="true" />
+        </mvc:annotation-driven>
+        
+        
+        <mvc:resources mapping="/resources/**" location="/resources/"/>
+        
+        
 
         
         <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
             <property name="prefix" value="/WEB-INF/jsp/" />
             <property name="suffix" value=".jsp" />
         </bean>
+        
+
         
 </beans>

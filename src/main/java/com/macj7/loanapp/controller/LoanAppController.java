@@ -30,6 +30,34 @@ public class LoanAppController {
     private final SimpleLoanManager manager = new SimpleLoanManager();
     private final int pcode_length = 8;
     
+    
+    
+    @RequestMapping(value="/",method=RequestMethod.GET)
+    public ModelAndView root(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        ////////////////////////////////////////////////
+        
+        /**
+         * In the code section below if section to see if a user is signed in
+         * by checking for a session attribute "user" which should exist after
+         * a logging. If not, then the index view is rendered. If it does, then
+         * the user is redirect to the customer view or officer view depending
+         * on which of these two the user is.
+         */
+        User user = (User) session.getAttribute("user");
+        if (user!=null) {
+            if (user.getPermission()==2) {
+                return new ModelAndView("redirect:/customer");
+            }
+            else {
+                return new ModelAndView("redirect:/officer");
+            }
+        }
+        //////////////////////////////////////////////////////////
+        return new ModelAndView("redirect:/index");
+    }
+    
+    
 
     /***
      * 
@@ -38,7 +66,7 @@ public class LoanAppController {
      * @param request
      * @return ModelAndView Object.
      */
-    @RequestMapping(value="/index")
+    @RequestMapping(value="/index",method=RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request) {
         HttpSession session = request.getSession();
         ////////////////////////////////////////////////
@@ -53,10 +81,10 @@ public class LoanAppController {
         User user = (User) session.getAttribute("user");
         if (user!=null) {
             if (user.getPermission()==2) {
-                return new ModelAndView("redirect:/customer.php");
+                return new ModelAndView("redirect:/customer");
             }
             else {
-                return new ModelAndView("redirect:/officer.php");
+                return new ModelAndView("redirect:/officer");
             }
         }
         //////////////////////////////////////////////////////////
@@ -70,7 +98,7 @@ public class LoanAppController {
      * @param request
      * @return ModelAndView Object
      */
-    @RequestMapping(value="/signUp")
+    @RequestMapping(value="/signUp",method=RequestMethod.GET)
     public ModelAndView signUp(HttpServletRequest request) {
         HttpSession session = request.getSession();
         ////////////////////////////////////////////////
@@ -86,10 +114,10 @@ public class LoanAppController {
         User user = (User) session.getAttribute("user");
         if (user!=null) {
             if (user.getPermission()==2) {
-                return new ModelAndView("redirect:/customer.php");
+                return new ModelAndView("redirect:/customer");
             }
             else {
-                return new ModelAndView("redirect:/officer.php");
+                return new ModelAndView("redirect:/officer");
             }
         }
         //////////////////////////////////////////////////////////
@@ -98,8 +126,7 @@ public class LoanAppController {
     
     /***
      * This method controller is mapped to the url /register with method post.
-     * Note that get is the default and so was not specified explicitly
-     * like this one. This controller method is responsible for creating a new
+     * This controller method is responsible for creating a new
      * customer and adding them to the database.
      * 
      * @param request
@@ -111,13 +138,13 @@ public class LoanAppController {
         //checks the http request for user's first name.
         String fname = request.getParameter("fname");
         if ((fname == null) || (fname.equals(""))) {
-            return new ModelAndView("redirect:/failed.php"); //fails if there is no first name or is empty string.
+            return new ModelAndView("redirect:/failed"); //fails if there is no first name or is empty string.
         }
         
         //checks the http request for user's last name.
         String lname = request.getParameter("lname");
         if (lname == null) {
-            return new ModelAndView("redirect:/index.php"); // fails if there is no last name or empty string.
+            return new ModelAndView("redirect:/index"); // fails if there is no last name or empty string.
         }
         
         String name = fname+" "+lname; // concatenate them into just a name.
@@ -134,7 +161,7 @@ public class LoanAppController {
         if (manager.registerUser(name, pcode, 2)) {
             return new ModelAndView("register","pcode",pcode);
         }
-        return new ModelAndView("redirect:/failed.php"); // displays a page indicating that registration has failed.
+        return new ModelAndView("redirect:/failed"); // displays a page indicating that registration has failed.
     }
     
 
@@ -143,12 +170,12 @@ public class LoanAppController {
     public ModelAndView login(HttpServletRequest request) {
         String pcode = request.getParameter("pcode");
         if (pcode == null) {
-            return new ModelAndView("redirect:/index.php");
+            return new ModelAndView("redirect:/index");
         }
         HttpSession session = request.getSession();
         
         if (pcode.length() != pcode_length) {
-            return new ModelAndView("index");
+            return new ModelAndView("redirect:/index");
         }
         
         if (manager.passCodeInUse(pcode)) {
@@ -159,14 +186,14 @@ public class LoanAppController {
             session.setAttribute("user", user);
             System.out.println("In login-permission:"+user.getPermission());
             if (user.getPermission()==2) {
-                return new ModelAndView("redirect:/customer.php");
+                return new ModelAndView("redirect:/customer");
             }
             else {
-                return new ModelAndView("redirect:/officer.php");
+                return new ModelAndView("redirect:/officer");
             }
         }
         else {
-            return new ModelAndView("redirect:/index.php");
+            return new ModelAndView("redirect:/index");
         }
         
     }
@@ -176,11 +203,11 @@ public class LoanAppController {
         HttpSession session = request.getSession();
         session.invalidate();
         
-        return new ModelAndView("redirect:/index.php");
+        return new ModelAndView("redirect:/index");
     }
     
 
-    @RequestMapping(value="/customer")
+    @RequestMapping(value="/customer",method=RequestMethod.GET)
     public ModelAndView customer(HttpServletRequest request) {
         HttpSession session = request.getSession();
         ////////////////////////////////////////////////
@@ -191,15 +218,15 @@ public class LoanAppController {
                 return new ModelAndView("customer");
             }
             else {
-                return new ModelAndView("redirect:/401.php"); //redirect 401 error page.
+                return new ModelAndView("redirect:/401"); //redirect 401 error page.
             }
         }
         //////////////////////////////////////////////////////////
         
-        return new ModelAndView("redirect:/401.php"); //redirect 401 error page.
+        return new ModelAndView("redirect:/401"); //redirect 401 error page.
     }
     
-    @RequestMapping(value="/officer")
+    @RequestMapping(value="/officer",method=RequestMethod.GET)
     public ModelAndView officer(HttpServletRequest request) {
         HttpSession session = request.getSession();
         ////////////////////////////////////////////////
@@ -207,14 +234,14 @@ public class LoanAppController {
         User user = (User) session.getAttribute("user");
         if (user!=null) {
             if (user.getPermission()==2) {
-                return new ModelAndView("redirect:/401.php"); //redirect 401 error page.
+                return new ModelAndView("redirect:/401"); //redirect 401 error page.
             }
             else {
                 return new ModelAndView("officer");
             }
         }
         //////////////////////////////////////////////////////////
-        return new ModelAndView("redirect:/401.php"); //redirect 401 error page.
+        return new ModelAndView("redirect:/401"); //redirect 401 error page.
     }
     
 

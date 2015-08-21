@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Error - 401!</title>
-        <link href="css/style2.css" rel="stylesheet" type="text/css">
+        <link href="resources/css/style2.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <header>
@@ -18,7 +18,7 @@
         </header>
         
         <nav>
-            <a href="index.php">Home</a><br/>
+            <a href="index">Home</a><br/>
         </nav>
         
         <section style="float:none;">

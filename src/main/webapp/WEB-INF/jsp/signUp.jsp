@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Loan App:: Login </title>
-        <link href="css/style2.css" rel="stylesheet" type="text/css">
+        <link href="resources/css/style2.css" rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -14,12 +14,12 @@
         </header>
         
         <nav>
-            <a href="index.php">Home</a><br/>
+            <a href="index">Home</a><br/>
         </nav>
         
         <section style="float:none;">
             
-            <form class="center" action="register.php" method="post">
+            <form class="center" action="register" method="post">
                 <label>First Name:</label>
                 <input type="text" name="fname"/><br/><br/>
                 <label>Last Name:</label>
